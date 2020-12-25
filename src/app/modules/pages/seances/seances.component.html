@@ -1,0 +1,130 @@
+<!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Liste des séances </h3>
+                  <a href="#" class="btn btn-succes btn-sm" (click)="restSeance()" data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nouvelle séance  </a>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Jour</th>
+                        <th>Heure Début</th>
+                        <th>Heure Fin</th>
+                        <th>Professeur</th>
+                        <th>Matière</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let seance of seances;let indexOfelemnt=index;">
+                            <td>{{indexOfelemnt}}</td>
+                            <td>{{seance.jour}}</td>
+                            <td>{{seance.heureDebut}}</td>
+                            <td>{{seance.heureFin}}</td>
+                            <td>{{seance.professeur.nom_prof}} {{seance.professeur.prenom_prof}}</td>
+                            <td>{{seance.matiere.intitule}}</td>
+                            <td>
+                                <button (click)="deleteSeance(seance.id)" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></button>
+                                <button (click)= "editSeance(seance)" data-toggle="modal" data-target="#modal-default" class="btn btn-warning btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+
+        <!-- /.modal-dialog -->
+        <div class="modal fade modal-dialog-centered"  id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 *ngIf="!editForm" class="modal-title">Enregistrer nouvelle séance</h4>
+                        <h4 *ngIf="editForm"class="modal-title">Modifier une séance</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- form start -->
+                        <form role="form" [formGroup]="seanceForm" (ngSubmit)="onSaveSeance()">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label for="beginningHour">Heure Début</label>
+                                            <select  class="form-control" id="beginningHour" formControlName="beginningHour" [(ngModel)]="newSeance.heureDebut">
+                                                <option [ngValue]="tim" *ngFor="let tim of timesD">{{ tim }}</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">                                      
+                                        <div class="form-group">
+                                            <label for="date_naissance">Heure Fin</label>
+                                            <select  class="form-control" id="endTime" formControlName="endTime" [(ngModel)]="newSeance.heureFin">
+                                                <option [ngValue]="tim" *ngFor="let tim of timesF">{{ tim }}</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">                                      
+                                        <div class="form-group">
+                                            <label for="jourSeance">Jour</label>
+                                            <select  class="form-control" id="jourSeance" formControlName="jourSeance" [(ngModel)]="newSeance.jour">
+                                                <option [ngValue]="day" *ngFor="let day of days">{{ day }}</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label for="professeur">Professeur</label>
+                                            <select   (change)="getAllMatiere()" class="form-control" id="professeur" formControlName="professeur" [(ngModel)]="newSeance.professeur.id">
+                                                <option   [ngValue]="prof.id" *ngFor="let prof of professeurs">{{ prof.nom_prof }} {{ prof.prenom_prof }}</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label for="matiere">Matière</label>
+                                            <select  class="form-control" id="matiere" formControlName="matiere" [(ngModel)]="newSeance.matiere.id">
+                                                <option [ngValue]="matiere.id" *ngFor="let matiere of matieres">{{ matiere.intitule }}</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button *ngIf="!editForm" type="submit" class="btn btn-primary" [disabled]="!seanceForm.valid ">Enregistrer</button>
+                                <button *ngIf="editForm" type="submit" class="btn btn-warning" [disabled]="!seanceForm.valid">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->

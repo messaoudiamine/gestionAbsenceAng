@@ -1,0 +1,113 @@
+<div class="modal fade modal-dialog-centered" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Enregistrer un nouvel élève</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- form start -->
+                <form role="form" [formGroup]="eleveForm" (ngSubmit)="onSaveEleve()">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">                                      
+                                <div class="form-group">
+                                    <label for="lastname">Nom</label>
+                                    <input type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Nom">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="firstname">Prénom</label>
+                                    <input type="text" class="form-control" id="firstname" formControlName="firstName" placeholder="Prénom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">                                      
+                                <div class="form-group">
+                                    <label for="date_naissance">Date de naissance</label>
+                                    <input type="date" class="form-control" id="date_naissance" formControlName="dateNaissance" placeholder="Date de naissance">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="city">Ville</label>
+                                    <input type="text" class="form-control" id="city" formControlName="city" placeholder="Ville">
+                                </div>
+                            </div>
+                              <!-- <mat-form-field class="example-full-width">
+                                <mat-label>Choose a date</mat-label>
+                                <input matInput [matDatepicker]="picker">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker></mat-datepicker>
+                              </mat-form-field> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="cin">Cin</label>
+                                    <input type="text" class="form-control" id="cin" formControlName="Cin" placeholder="Cin">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="mail">Adresse e-mail</label>
+                                    <input type="text" class="form-control" id="mail" formControlName="email" placeholder="Mail">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="telephone">Téléphone Mobile</label>
+                                    <input type="text" class="form-control" id="telephone" formControlName="telephone" placeholder="Numéro de téléphone">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="sexe">Sexe</label>
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary2" value="M" formControlName="sexe" name="sexe">
+                                        <label for="radioPrimary2">Masculin</label>
+                                      </div>
+                                      <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary3" value="F" formControlName="sexe" name="sexe">
+                                        <label for="radioPrimary3">Féminin</label>
+                                      </div>
+                                </div>  
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Photo</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" name="photo" class="custom-file-input" id="exampleInputFile" formControlName="photo">
+                                            <label class="custom-file-label" for="exampleInputFile">Choisir l'image</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                        <span class="input-group-text" id="">Télécharger</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="!eleveForm.valid">Enregistrer</button>
+                    <!-- /.card-body -->
+                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

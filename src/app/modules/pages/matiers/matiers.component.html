@@ -1,0 +1,94 @@
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Liste des matieres</h3>
+                  <a href="#" class="btn btn-succes btn-sm" (click)="restMatiere()"  data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nouvelle matière </a>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Intitule de matiere</th>
+                        <th>Enseignant</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let matiere of matieres;let indexElemnt=index;">
+                            <td>{{indexElemnt}}</td>
+                            <td>{{matiere.intitule}}</td>
+                            <td>{{matiere.professeur.nom_prof}} {{matiere.professeur.prenom_prof}}</td>
+                            <td>
+                                <button (click)="deleteMatiere(matiere.id)" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></button>
+                                <button (click)= "editMatiere(matiere)" data-toggle="modal" data-target="#modal-default" class="btn btn-warning btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+
+        <!-- /.modal-dialog -->
+        <div class="modal fade modal-dialog-centered"  id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 *ngIf="!editForm" class="modal-title">Enregistrer nouvelle matiere</h4>
+                        <h4 *ngIf="editForm"class="modal-title">Modifier une matiere</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- form start -->
+                        <form role="form" [formGroup]="matiereForm" (ngSubmit)="onSaveMatiere()">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">                                      
+                                        <div class="form-group">
+                                            <label for="intitule">Intitule de matiere</label>
+                                            <input type="text" class="form-control" [(ngModel)]="newMatiere.intitule"  id="intitule" formControlName="intitule" placeholder="Intitule">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-md-6">                                      
+                                        <div class="form-group">
+                                            <label for="professeur">Professeur</label>
+                                            <select  class="form-control" id="professeur" formControlName="professeur" [(ngModel)]="newMatiere.professeur.id">
+                                                <option [ngValue]="prof.id" *ngFor="let prof of professeurs">{{ prof.nom_prof }} {{ prof.prenom_prof }}</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button *ngIf="!editForm" type="submit" class="btn btn-primary" [disabled]="!matiereForm.valid ">Enregistrer</button>
+                                <button *ngIf="editForm" type="submit" class="btn btn-warning" [disabled]="!matiereForm.valid">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->

@@ -1,0 +1,168 @@
+<!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Liste des absences</h3>
+                    <div class="row"> 
+                        <div class="col-lg-4 col-md-4">
+                              <div class="form-group">
+                                <label for="">Classe</label>
+                                <select (change)= "getAbsenceByNiveau(selectNiveau)" [(ngModel)]="selectNiveau" name="niveau" id="niveau" class="form-control">
+                                  <option  ngValue="0">Toutes les absences</option>
+                                  <option  [ngValue]="niva.id" *ngFor="let niva of niveau">{{ niva.intitule }}</option>
+                                </select>
+                              </div>
+                        </div>
+                         <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                              <label for="dateabs-filter">Date</label>
+                              <input type="date" (change)="onCheckDate($event.target.value)"  (blur)="onCheckDate($event.target.value)" class="form-control" [(ngModel)]="dateFilter" id="dateabs-filter" name="dateabs-filter">
+                            </div>
+                         </div>
+                         <div class="col-lg-4 col-md-4">
+                           <button (click)="getAbsenceByDateAndClass()" [disabled]="btnFilter" type="button" class="btn btn-info mt-23" id="filter-date" value="Filter par date">Filter par date</button>
+                         </div>
+                   </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Etudiant</th>
+                        <th>Date</th>
+                        <th>Absent</th>
+                        <th>Heure de début</th>
+                        <th>Heure de fin</th>
+                        <th>Justification</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let absn of absences;let indexOfelemnt=index;">
+                            <td>{{indexOfelemnt}}</td>
+                            <td>{{absn.etudiant.prenom_etud+" "+absn.etudiant.nom_etud}}</td>
+                            <td>{{absn.date_absence}}</td>
+                            <td>
+                              <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                  <input type="checkbox" [checked]="absn.etat" name="absen" class="custom-control-input">
+                                </div>
+                              </div>
+                            </td>
+                            <td>{{absn.heure_debut}}</td>
+                            <td>{{absn.heure_Fin}}</td>
+                            <td>{{absn.justif}}</td>
+                           
+                            <td>
+                                <!-- <button (click)="deleteEleve(eleve.id)" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></button> -->
+                                <button (click)= "editAbsence(absn)" data-toggle="modal" data-target="#modal-default" class="btn btn-warning btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+      <!-- /.modal -->
+       
+              <!-- /.modal-dialog -->
+            <div [ngClass]="{ 'modal fade modal-dialog-centered':true,'in':showModal}" [ngStyle]="{'display': showModal ? '' : 'none'}" id="modal-default">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modifier une absence</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- form start -->
+                            <form role="form" [formGroup]="absenceForm" (ngSubmit)="onSaveAbsence()">
+                                <div class="card-body">
+                                    <!-- <div class="row">
+                                        <div class="col-lg-6 col-md-6">                                      
+                                            <div class="form-group">
+                                                <label for="lastname">Nom</label>
+                                                <input type="text" disabled class="form-control" [(ngModel)]="newAbsenceEd.prenom_etud"  id="lastname" formControlName="lastname" placeholder="Nom">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstname">Prénom</label>
+                                                <input type="text" disabled class="form-control" [(ngModel)]="newAbsenceEd.nom_etud" id="firstname" formControlName="firstName" placeholder="Prénom">
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">                                      
+                                            <div class="form-group">
+                                                <label for="date_absence">Date</label>
+                                                <input type="date" class="form-control" [(ngModel)]="newAbsenceEd.date_absence" id="date_absence" formControlName="date_absence" placeholder="Date absence">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label for="sexe">Etat</label>
+                                            <div class="icheck-primary d-inline">
+                                                <input type="radio" id="radioEtat1" [(ngModel)]="newAbsenceEd.etat"  [value]="true" formControlName="etat" >
+                                                <label for="radioEtat1">Oui</label>
+                                              </div>
+                                              <div class="icheck-primary d-inline">
+                                                <input type="radio" id="radioEtat2" [(ngModel)]="newAbsenceEd.etat"  [value]="false" formControlName="etat" >
+                                                <label for="radioEtat2">non</label>
+                                              </div>
+                                        </div> 
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="heure_debut">Heure de début</label>
+                                                <input type="text" class="form-control" [(ngModel)]="newAbsenceEd.heure_debut" id="heure_debut" formControlName="heure_debut" placeholder="Heure de début">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                              <label for="telephone">Heure de fin</label>
+                                              <input type="text" class="form-control" [(ngModel)]="newAbsenceEd.heure_Fin" id="heure_Fin" formControlName="heure_Fin" placeholder="Heure de fin">
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label for="justification">Justification</label>
+                                                <input type="text" class="form-control" [(ngModel)]="newAbsenceEd.justif" id="justification" formControlName="justif" placeholder="Justification">
+                                              </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-warning" [disabled]="!absenceForm.valid">Modifier</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+          <!-- /.modal -->
+
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->

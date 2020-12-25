@@ -1,0 +1,113 @@
+<!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Liste des semestres </h3>
+                  <a href="#" class="btn btn-succes btn-sm" (click)="restSemestre()"  data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nouveau semestre </a>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date Début</th>
+                        <th>Date Fin</th>
+                        <th>Libelle</th>
+                        <th>Année scolaire</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let semestre of semestres;let indexOfelement=index;">
+                            <td>{{indexOfelement}}</td>
+                            <td>{{semestre.dateDebut}}</td>
+                            <td>{{semestre.dateFin}}</td>
+                            <td>{{semestre.libelle}}</td>
+                            <td>{{semestre.anneeScolaire.dateDebut}}/{{semestre.anneeScolaire.dateFin}}</td>
+                            <td>
+                                <button (click)="deleteSemestre(semestre.id)" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></button>
+                                <button (click)= "editSemestre(semestre)" data-toggle="modal" data-target="#modal-default" class="btn btn-warning btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+
+        <!-- /.modal-dialog -->
+        <div class="modal fade modal-dialog-centered"  id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 *ngIf="!editForm" class="modal-title">Enregistrer nouveau semestre</h4>
+                        <h4 *ngIf="editForm"class="modal-title">Modifier un semestre</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- form start -->
+                        <form role="form" [formGroup]="semestreForm" (ngSubmit)="onSaveSemestre()">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label for="dateDebut">Date Début</label>
+                                            <input type="date" class="form-control" [(ngModel)]="newSemestre.dateDebut" id="dateDebut" formControlName="dateDebut" placeholder="Date début">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">                                      
+                                        <div class="form-group">
+                                            <label for="dateFin">Date Fin</label>
+                                            <input type="date" class="form-control" [(ngModel)]="newSemestre.dateFin" id="dateFin" formControlName="dateFin" placeholder="Date fin">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">                                      
+                                        <div class="form-group">
+                                            <label for="libelle">Libellé</label>
+                                            <input type="text" class="form-control" [(ngModel)]="newSemestre.libelle" id="libelle" formControlName="libelle" placeholder="Libellé">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label for="anneeScolaire">Année scolaire</label>
+                                            <select  class="form-control" id="anneeScolaire" formControlName="anneescol" [(ngModel)]="newSemestre.anneeScolaire">
+                                                <option [ngValue]="annee.id" *ngFor="let annee of anneeScolaires">{{ annee.dateDebut }}{{ annee.dateFin }}</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button *ngIf="!editForm" type="submit" class="btn btn-primary" [disabled]="!semestreForm.valid ">Enregistrer</button>
+                                <button *ngIf="editForm" type="submit" class="btn btn-warning" [disabled]="!semestreForm.valid">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->

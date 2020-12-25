@@ -1,0 +1,110 @@
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Liste des enseignants</h3>
+                  <a href="#" class="btn btn-succes btn-sm" (click)="restProf()" data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nouveau enseignant</a>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Téléphone</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let prof of professeurs;let indexOfElemnt=index">
+                            <td>{{indexOfElemnt}}</td>
+                            <td>{{prof.nom_prof}}</td>
+                            <td>{{prof.prenom_prof}}</td>
+                            <td>{{prof.tel_prof}}</td>
+                            <td>{{prof.mail_prof}}</td>
+                            <td>
+                                <button (click)="deleteProfesseur(prof.id)" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></button>
+                                <button (click)= "editProfesseur(prof)" data-toggle="modal" data-target="#modal-default" class="btn btn-warning btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+
+        <!-- /.modal-dialog -->
+        <div class="modal fade modal-dialog-centered" [ngStyle]="{'display': showModal ? '' : 'none'}" id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 *ngIf="!editForm" class="modal-title">Ajouter un nouveau enseignant</h4>
+                        <h4 *ngIf="editForm" class="modal-title">Modifier l'enseignant</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- form start -->
+                        <form role="form" [formGroup]="profForm" (ngSubmit)="onSaveProf()">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">                                      
+                                        <div class="form-group">
+                                            <label for="lastname">Nom</label>
+                                            <input type="text" class="form-control" [(ngModel)]="newProfesseurs.nom_prof"  id="lastname" formControlName="lastname" placeholder="Nom">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label for="firstname">Prénom</label>
+                                            <input type="text" class="form-control" [(ngModel)]="newProfesseurs.prenom_prof" id="firstname" formControlName="firstName" placeholder="Prénom">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="telephone">Téléphone Mobile</label>
+                                            <input type="text" class="form-control" [(ngModel)]="newProfesseurs.tel_prof" id="telephone" formControlName="telephone" placeholder="Numéro de téléphone">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail">Adresse e-mail</label>
+                                            <input type="text" class="form-control" [(ngModel)]="newProfesseurs.mail_prof" id="mail" formControlName="email" placeholder="Mail">
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button *ngIf="!editForm" type="submit" class="btn btn-primary" [disabled]="!profForm.valid">Enregistrer</button>
+                                <button *ngIf="editForm" type="submit" class="btn btn-warning" [disabled]="!profForm.valid">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
